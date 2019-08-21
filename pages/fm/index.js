@@ -1,4 +1,4 @@
-// pages/home/index.js
+// pages/fm/index.js
 Page({
 
   /**

@@ -1,4 +1,4 @@
-// pages/home/index.js
+// pages/simi/index.js
 Page({
 
   /**

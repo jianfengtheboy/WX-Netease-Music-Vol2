@@ -1,4 +1,4 @@
-// pages/home/index.js
+// pahes/search/index.js
 Page({
 
   /**

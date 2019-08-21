@@ -1,39 +1,106 @@
-//app.js
+var bsurl = require('./utils/bsurl.js')
+var nt = require('./utils/nt.js')
 App({
   onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    var cookie = wx.getStorageSync('cookie') || ''
+    var gb = wx.getStorageSync('globalData')
+    gb && (this.globalData = gb)
+    this.globalData.cookie = cookie
+    var that = this
+    //播放列表中下一首
+    wx.onBackgroundAudioStop(function() {
+      if (that.globalData.globalStop) {
+        return
+      }
+      if (that.globalData.playtype != 2) {
+        that.nextplay(that.globalData.playtype)
+      } else {
+        that.nextfm()
       }
     })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
+    //监听音乐暂停，保存播放进度广播暂停状态
+    wx.onBackgroundAudioPause(function() {
+      nt.postNotificationName("music_toggle", {
+        playing: false,
+        playtype: that.globalData.playtype,
+        music: that.globalData.curplay || {}
+      })
+      that.globalData.playing = false
+      that.globalData.globalStop = that.globalData.hide ? true : false
+      wx.getBackgroundAudioPlayerState({
+        complete: function(res) {
+          that.globalData.currentPosition = res.currentPosition ? res.currentPosition : 0
         }
-      }
+      })
     })
+    this.mine()
+    this.likelist()
+    //this.loginrefresh()
+  },
+  mine: function() {
+
+  },
+  likelist: function() {
+
+  },
+  loginrefresh: function() {
+
+  },
+  //播放列表中下一首
+  nextplay: function() {
+
+  },
+  //下一首fm
+  nextfm: function() {
+
+  },
+  preplay: function() {
+
+  },
+  getfm: function() {
+
+  },
+  stopmusic: function() {
+
+  },
+  seekmusic: function() {
+
+  },
+  playing: function() {
+
+  },
+  geturl: function() {
+
+  },
+  //播放模式shuffle，1顺序，2单曲，3随机
+  shuffleplay: function() {
+
+  },
+  onShow: function() {
+    this.globalData.hide = false
+  },
+  onHide: function() {
+    this.globalData.hide = true
+    wx.setStorageSync('globalData', this.globalData)
   },
   globalData: {
-    userInfo: null
+    hasLogin: false,
+    hide: false,
+    list_am: [],
+    list_dj: [],
+    list_fm: [],
+    list_sf: [],
+    index_dj: 0,
+    index_fm: 0,
+    index_am: 0,
+    playing: false,
+    playtype: 1,
+    curplay: {},
+    shuffle: 1,
+    globalStop: true,
+    currentPosition: 0,
+    staredlist: [],
+    cookie: "",
+    user: {}
   }
 })

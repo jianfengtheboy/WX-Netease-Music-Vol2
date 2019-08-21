@@ -1,4 +1,4 @@
-// pages/home/index.js
+// pages/playing/index.js
 Page({
 
   /**

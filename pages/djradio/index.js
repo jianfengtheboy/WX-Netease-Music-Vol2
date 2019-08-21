@@ -1,4 +1,4 @@
-// pages/home/index.js
+// pages/djradio/index.js
 Page({
 
   /**
