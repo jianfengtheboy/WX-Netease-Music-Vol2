@@ -35,7 +35,7 @@ App({
     })
     this.mine()
     this.likelist()
-    //this.loginrefresh()
+    this.loginrefresh()
   },
   //我的
   mine: function() {
@@ -159,6 +159,7 @@ App({
       }
     })
   },
+  //暂停播放
   stopmusic: function(type, cb) {
     wx.pauseBackgroundAudio()
   },
@@ -175,15 +176,84 @@ App({
       })
     }
   },
-  playing: function() {
-
+  //播放
+  playing: function(type, cb, seek) {
+    let that = this
+    let m = that.globalData.curplay
+    wx.playBackgroundAudio({
+      dataUrl: m.url,
+      title: m.name,
+      success: function(res) {
+        if (seek != undefined) {
+          wx.seekBackgroundAudio({
+            position: seek 
+          })
+        }
+        that.globalData.globalStop = false
+        that.globalData.playtype = type
+        that.globalData.playing = true
+        nt.postNotificationName("music_toggle", {
+          playing: true,
+          music: that.globalData.curplay,
+          playtype: that.globalData.playtype
+        })
+        cb && cb()
+      },
+      fail: function() {
+        if (type != 2) {
+          that.nextplay(1)
+        } else {
+          that.nextfm()
+        }
+      }
+    })
   },
-  geturl: function() {
-
+  geturl: function(suc, err, cb) {
+    let that = this
+    let m = that.globalData.curplay
+    wx.request({
+      url: bsurl + 'music/url',
+      data: {
+        id: m.id,
+        br: m.duration ? ((m.hMusic && m.hMusic.bitrate) || (m.mMusic && m.mMusic.bitrate) || (m.lMusicm && m.lMusic.bitrate) || (m.bMusic && m.bMusic.bitrate)) : (m.privilege ? m.privilege.maxbr : ((m.h && m.h.br) || (m.m && m.m.br) || (m.l && m.l.br) || (m.b && m.b.br))),
+        br: 128000
+      },
+      success: function(a) {
+        a = a.data.data[0]
+        if (!a.url) {
+          err && err()
+        } else {
+          that.globalData.curplay.url = a.url
+          that.globalData.curplay.getutime = (new Date()).getTime()
+          if (that.globalData.staredlist.indexOf(that.globalData.curplay.id) != -1) {
+            that.globalData.curplay.starred = true
+            that.globalData.curplay.st = true
+          }
+          suc && suc()
+        }
+      }
+    })
   },
   //播放模式shuffle，1顺序，2单曲，3随机
-  shuffleplay: function() {
-
+  shuffleplay: function(shuffle) {
+    let that = this
+    that.globalData.shuffle = shuffle
+    if (shuffle == 1) {
+      that.globalData.list_am = that.globalData.list_sf
+    } else if (shuffle == 2) {
+      that.globalData.list_am = [that.globalData.curplay]
+    } else {
+      that.globalData.list_am = [].concat(that.globalData.list_sf)
+      let sort = that.globalData.list_am
+      sort.sort(function() {
+        return Math.random() - (0.5) ? 1 : -1
+      })
+    }
+    for (let s in that.globalData.list_am) {
+      if (that.globalData.list_am[s].id == that.globalData.curplay.id) {
+        that.globalData.index_am = s
+      }
+    }
   },
   onShow: function() {
     this.globalData.hide = false

@@ -51,7 +51,7 @@
     width:36rpx;
     height: auto;
     margin-right: .3em;
-    vertical-align: middle;
+    vertical-align: top;
     font-size:28rpx;
 }
 
@@ -721,9 +721,9 @@
 }
 
 .img_playcount image {
-    vertical-align: baseline;
+    vertical-align: top;
     margin-right: 10rpx;
-    position: relative;
+    margin-top: 2rpx;
     width: 24rpx;
     height: 24rpx;
 }
