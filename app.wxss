@@ -208,9 +208,9 @@ radio {
 	height: 60rpx
 }
 
-/* .page_pp {
+.page_pp {
 	padding-bottom: 100rpx;
-} */
+}
 
 .page_loading {
 	text-align: center;

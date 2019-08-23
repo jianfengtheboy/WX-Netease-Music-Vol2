@@ -226,7 +226,7 @@
                             <text>{{item.updateFrequency}}</text>
                         </view>
                         <view class="flexlist tl_info">
-                            <view class="sort_fl_list " wx:for-items="{{item.tracks}}" wx:for-item="r" wx:for-index="idx">
+                            <view class="sort_fl_list " wx:for-items="{{item.tracks}}" wx:for-item="r" wx:for-index="idx" wx:key="idx">
                                 {{idx+1}}．{{r.first}} - {{r.second}}
                             </view>
                         </view>
@@ -238,7 +238,7 @@
                             <image class="album_cover" src="{{sort.artistToplist.coverUrl}}" />
                         </view>
                         <view class="flexlist tl_info">
-                            <view class="sort_fl_list " wx:for-items="{{sort.artistToplist.artists}}" wx:for-index="idx">
+                            <view class="sort_fl_list " wx:for-items="{{sort.artistToplist.artists}}" wx:for-index="idx" wx:key="idx">
                                 {{idx+1}}．{{item.first}} -
                                 <text>{{item.third}}</text>
                             </view>

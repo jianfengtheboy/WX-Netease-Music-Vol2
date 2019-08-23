@@ -1,66 +1,50 @@
 // pages/me/index.js
+var bsurl = require('../../utils/bsurl.js')
+var app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    list: [],
+    subcount:{},
+    loading:true
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
+    let that = this
+    let id = wx.getStorageSync('user')
+    if(!id.account){
+      wx.redirectTo({
+        url: '../login/index'
+      })
+      return
+    }
+    id = id.account.id
+    this.setData({
+      uid: id
+    })
+    wx.request({
+      url: bsurl + 'user/subcount?id=' + id,
+      success: function(res) {
+        that.setData({
+          subcount: res.data
+        })
+      }
+    })
+    wx.request({
+      url: bsurl + 'user/playlist',
+      data: {
+        uid: id,
+        offset: 0,
+        limit: 1000
+      },
+      success: function(res) {
+        that.setData({
+          loading: false,
+          list1: res.data.playlist.filter(function(item){return item.userId == id}),
+          list2: res.data.playlist.filter(function(item){return item.userId != id}),
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    console.log("me show----------")
   }
 })

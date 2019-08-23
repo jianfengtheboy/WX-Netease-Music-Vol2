@@ -1,8 +1,8 @@
 
 <template name="recordlist">
   <block wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{item.song.id}}" wx:for-item="re">
-    <view class="songs {{re.song.privilege.st>=0?'':'disabled'}}">
-      <navigator hover-class="{{re.song.privilege.st<0?'none':''}}" url="{{re.song.privilege.st>=0?'../playing/index?id='+re.song.id+'&br='+re.song.privilege.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{re.song.privilege.st}}">
+    <view class="songs {{re.song.privilege.st >= 0 ? '' : 'disabled'}}">
+      <navigator hover-class="{{re.song.privilege.st < 0 ? 'none' : ''}}" url="{{re.song.privilege.st >= 0 ? '../playing/playing/index?id=' + re.song.id + '&br=' + re.song.privilege.maxbr : ''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{re.song.privilege.st}}">
         <view class="flexlist flex-center">
           <view class="flexleft flexnum ">
             <text class="{{toplist&&idx<3?'topindex':''}}">{{idx+1}}</text>

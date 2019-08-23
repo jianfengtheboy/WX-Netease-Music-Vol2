@@ -66,7 +66,7 @@ App({
         cookie: this.globalData.cookie
       },
       success: function(res) {
-        console.log(res)
+        //console.log(res)
       }
     })
   },
