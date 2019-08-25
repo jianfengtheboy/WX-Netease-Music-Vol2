@@ -6,22 +6,22 @@
         <view class="flexlist flex-center">
           <view class="flexleft flexnum ">
             <block wx:if="{{re.id===curplay}}">
-            <template is="image" data="{{src:'../image/aal.png',width:36}}"/>
+            <template is="image" data="{{src:'../../image/aal.png',width:36}}"/>
             </block>
             <block wx:else>
               <text class="{{toplist&&idx<3?'topindex':''}}">{{idx+1}}</text>
                   <block wx:if="{{toplist}}">
                     <view class="ftp" wx:if="{{item.ratio!=undefined}}">
-                      <image src="../image/xv.png" />{{item.ratio}}%</view>
+                      <image src="../../image/xv.png" />{{item.ratio}}%</view>
                     <view class="ftp" wx:if="{{item.ratio==undefined&&item.lastRank!=undefined}}">
-                      <image src="../image/wu.png" wx:if="{{idx>item.lastRank}}" />
-                      <image src="../image/xu.png" wx:if="{{item.lastRank>idx}}" />
-                      <image src="../image/xr.png" wx:if="{{item.lastRank==idx}}" />
+                      <image src="../../image/wu.png" wx:if="{{idx>item.lastRank}}" />
+                      <image src="../../image/xu.png" wx:if="{{item.lastRank>idx}}" />
+                      <image src="../../image/xr.png" wx:if="{{item.lastRank==idx}}" />
                       <text>{{item.lastRank
                         <idx?(idx-item.lastRank):(item.lastRank-idx)}}</text>
                     </view>
                     <view class="ftp" wx:if="{{item.ratio==undefined&&item.lastRank==undefined}}">
-                      <image src="../image/xy.png" mode="widthFix" class="tpnew" />
+                      <image src="../../image/xy.png" mode="widthFix" class="tpnew" />
                     </view>
                   </block>
             </block>
@@ -34,7 +34,7 @@
             <view class="flexact" wx-if="{{re.mv!=0}}">
               <view catchtap="mv" data-mvid="{{re.mv}}" class="fa_list fa_mv">
                 <navigator url="../mv/index?id={{re.mv}}">
-                  <image src="../image/l0.png" mode="widthFix" />
+                  <image src="../../image/l0.png" mode="widthFix" />
                 </navigator>
               </view>
             </view>
@@ -49,7 +49,7 @@
         <view class="flexlist flex-center">
           <view class="flexleft flexnum ">
             <block wx:if="{{re.id===curplay}}">
-              <template is="image" data="{{src:'../image/aal.png',width:36}}"/>
+              <template is="image" data="{{src:'../../image/aal.png',width:36}}"/>
             </block>
             <block wx:else>
               <text class="{{toplist&&idx<3?'topindex':''}}">{{idx+1}}</text>
@@ -63,7 +63,7 @@
             <view class="flexact" wx-if="{{re.mv!=0}}">
               <view catchtap="mv" data-mvid="{{re.mv}}" class="fa_list fa_mv">
                 <navigator url="../mv/index?id={{re.mv}}">
-                  <image src="../image/l0.png" mode="widthFix" />
+                  <image src="../../image/l0.png" mode="widthFix" />
                 </navigator>
               </view>
             </view>

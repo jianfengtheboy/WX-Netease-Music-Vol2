@@ -85,10 +85,10 @@ Page({
     })
   },
   lovesong:function(){
-    common.songheart(this,app, 0,(this.data.playtype==1? this.data.music.st:this.data.music.starred))
+    common.songheart(this,app, 0,(this.data.playtype == 1 ? this.data.music.st : this.data.music.starred))
   },
   userplaylist: function (e) {
-    var userid = e.currentTarget.dataset.userid
+    let userid = e.currentTarget.dataset.userid
     wx.redirectTo({
       url: '../user/index?id=' + userid
     })

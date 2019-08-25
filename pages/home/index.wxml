@@ -20,7 +20,7 @@
         <icon type="search" size="18" color="#666" />
     </navigator>
 </view>
-<view id="main" class="page_pp">
+<view id="main" class="{{playing ? 'page_pp' : ''}}">
     <!--个性推荐 -->
     <view class="tab_cnt" hidden="{{tabidx!=0}}">
         <swiper indicator-dots="true" autoplay="true" circular="true">

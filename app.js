@@ -54,6 +54,7 @@ App({
     this.globalData.cookie && wx.request({
       url: bsurl + 'likelist',
       success: function(res) {
+        console.log(res.data)
         that.globalData.staredlist = res.data.ids
       }
     })

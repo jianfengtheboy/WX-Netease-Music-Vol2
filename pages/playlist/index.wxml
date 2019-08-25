@@ -42,7 +42,7 @@
         </view>
     </view>
 </view>
-<view class="plist-detail page_pp">
+<view class="plist-detail {{playing ? 'page_pp' : ''}}">
     <block wx:if="{{list.playlist.tracks.length}}">
         <view id="playall" bindtap="playall" class="flexlist flex-center">
             <view class="flexleft flexnum">
