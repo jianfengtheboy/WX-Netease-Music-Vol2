@@ -6,8 +6,8 @@
         <view id="user_info">
             <image id="user_ava" class="user_avator" src="{{user.profile.avatarUrl}}?param=100y100" />
             <text id="user_nn">{{user.profile.nickname}}</text>
-            <image src="../../image/cm2_pro_icn_boy@2x.png" id="usergender" wx:if="{{user.profile.gender==1}}" />
-            <image src="../../image/cm2_pro_icn_girl@2x.png" id="usergender" wx:if="{{user.profile.gender==2}}" />
+            <image src="../../image/cm2_pro_icn_boy@2x.png" id="usergender" wx:if="{{user.profile.gender == 1}}" />
+            <image src="../../image/cm2_pro_icn_girl@2x.png" id="usergender" wx:if="{{user.profile.gender == 2}}" />
             <view id="user_sig">{{user.profile.signature}}</view>
         </view>
         <view class="tab">

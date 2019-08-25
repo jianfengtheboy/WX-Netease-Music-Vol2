@@ -42,7 +42,7 @@ Page({
       data: {
         uid: id || that.data.id,
         offset: that.data.offset,
-        limit: 2,
+        limit: 100,
         cookie: app.globalData.cookie
       },
       complete: res => {
