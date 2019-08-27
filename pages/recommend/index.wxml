@@ -1,2 +1,3 @@
 <!--pages/recommend/index.wxml-->
-<text>pages/recommend/index.wxml</text>
+<import src="../../components/commentslist.wxml" />
+<template is="commentslist" data="{{rec:rec,loading:loading}}" />

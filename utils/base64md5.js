@@ -236,7 +236,6 @@ function arr2Str(bytes) {
 }
 
 function id2Url(pic_str) {
-    console.log('strg:',pic_str)
     var magic = str2Arr('3go8&$8*3*3h0k(2)2')
     var songId = str2Arr(pic_str)
     for (var i = 0; i < songId.length; i++) {
