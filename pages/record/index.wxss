@@ -1,1 +1,13 @@
 /* pages/record/index.wxss */
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%; 
+    z-index: 10;
+    -webkit-backdrop-filter: blur(15px); /* Safari for macOS & iOS*/
+    backdrop-filter: blur(15px); /* Google Chrome */
+}
+
+.tab_cnt {
+    padding-top: 80rpx;
+}

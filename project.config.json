@@ -48,13 +48,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "pages/recommend/index",
 					"pathName": "pages/recommend/index",
 					"query": "id=A_PL_0_831607488&from=playlist",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/record/index",
+					"pathName": "pages/record/index",
+					"query": "uid=554831011",
 					"scene": null
 				}
 			]

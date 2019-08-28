@@ -1,66 +1,52 @@
 // pages/record/index.js
+var app = getApp()
+var bsurl = require('../../utils/bsurl.js')
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    loading: false,
+    weekData: [],
+    allData: [],
+    code: 0,
+    tab: 1,
+    curplay: -1
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
+    let that = this
+    wx.request({
+      url: bsurl + 'record',
+      data: {
+        cookie: app.globalData.cookie, 
+        uid: options.uid, 
+        type: 1
+      },
+      success: res => {
+        that.setData({
+          weekData: res.data
+        })
+      }
+    })
+    wx.request({
+      url: bsurl + 'record',
+      data: {
+        uid: options.uid, 
+        type: 0
+      },
+      success: res => {
+        that.setData({
+          allData: res.data
+        })
+      },
+      complete: () => {
+        that.setData({
+          loading: true
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  switchtab: function (e) {
+    var t = e.currentTarget.dataset.t
+    this.setData({ 
+      tab: t 
+    })
   }
 })
