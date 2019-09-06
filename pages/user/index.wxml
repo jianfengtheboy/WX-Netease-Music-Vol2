@@ -2,7 +2,7 @@
 <import src="../../components/pl.wxml" />
 <import src="../../components/loading.wxml" />
 <view class="index">
-    <view id="user" style="background-image:url({{user.profile.backgroundUrl}})">
+    <view id="user" wx:if="{{user.profile.backgroundUrl}}" style="background-image:url({{user.profile.backgroundUrl}})">
         <view id="user_info">
             <image id="user_ava" class="user_avator" src="{{user.profile.avatarUrl}}?param=100y100" />
             <text id="user_nn">{{user.profile.nickname}}</text>

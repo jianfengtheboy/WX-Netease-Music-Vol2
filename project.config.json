@@ -6,10 +6,12 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": false,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -48,20 +50,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/recommend/index",
-					"pathName": "pages/recommend/index",
-					"query": "id=A_PL_0_831607488&from=playlist",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/record/index",
-					"pathName": "pages/record/index",
-					"query": "uid=554831011",
+					"name": "pages/new/index",
+					"pathName": "pages/new/index",
+					"query": "",
 					"scene": null
 				}
 			]

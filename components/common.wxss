@@ -277,7 +277,7 @@
 
 .fmh_time {
     display: block;
-    font-size: 18rpx;
+    font-size: 20rpx;
 }
 
 .rm_header .fmh_name {

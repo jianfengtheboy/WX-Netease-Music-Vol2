@@ -1,66 +1,109 @@
-// pages/fm/index.js
+var common = require('../../utils/util.js')
+var bsurl = require('../../utils/bsurl.js')
+var nt = require('../../utils/nt.js')
+let app = getApp()
+let seek = 0
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    music: {},
+    playtime: "00:00",
+    duration: "00:00",
+    percent: 0,
+    downloadPercent: 0,
+    imgload: false,
+    playing: true,
+    showlrc: false,
+    commentscount: 0,
+    lrc: {},
+    stared: false
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  music_next: function(r) {
+    let that = this
+    common.loadrec(app.globalData.cookie, 0, 0, r.music.id, function(res) {
+      that.setData({
+        commentscount: res.total
+      })
+    })
+  },
   onLoad: function (options) {
-
+    let that = this
+    let music = app.globalData.list_fm[app.globalData.index_fm]
+    if (music && app.globalData.playtype == 2) {
+      this.setData({
+        music: music,
+        duration: common.formatduration(music.duration)
+      })
+      common.loadrec(app.globalData.cookie, 0, 0, that.data.music.id, function(res) {
+        that.setData({
+          commentscount: res.total
+        })
+      })
+    } else {
+      app.nextfm()
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShareAppMessage: function() {
+    return {
+      title: this.data.music.name,
+      desc: this.data.music.artists[0].name,
+      path: 'pages/home/index?share=1&st=playing&id=' + this.data.music.id
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  loadlrc: function () {
+    common.loadlrc(this)
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  onShow: function() {
+    let that = this
+    nt.addNotification("music_next", this.music_next, this)
+    if (app.globalData.playtype != 2) {
+      app.nextfm()
+    }
+    common.playAlrc(that, app)
+    seek = setInterval(function() {
+      common.playAlrc(that, app)
+    }, 1000)
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  onHide: function() {
+    clearInterval(seek)
+    nt.removeNotification("music_next", this)
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+  onUnload: function() {
+    nt.removeNotification("music_next", this)
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  songheart: function(e) {
+    common.songheart(this,app, 0, this.data.music.starred)
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  trash: function() {
+    common.songheart(this, app, 1)
+  },
+  loadimg: function(e) {
+    this.setData({
+      imgload: true
+    })
+  },
+  museek: function(e) {
+    let nextime = e.detail.value
+    let that = this
+    nextime = app.globalData.curplay.duration * nextime / 100000
+    app.globalData.currentPosition = nextime
+    app.seekmusic(2,app.globalData.currentPosition, function () {
+      that.setData({
+        percent: e.detail.value
+      })
+    })
+  },
+  play: function (m) {
+    common.toggleplay(this, app, function () { })
+  },
+  nextplay: function () {
+    this.setData({
+      lrc: [],
+      playtime: '00:00',
+      percent: '0',
+      playing: false,
+      showlrc: false,
+      duration: "00:00"
+    })
+    app.nextfm()
   }
 })
