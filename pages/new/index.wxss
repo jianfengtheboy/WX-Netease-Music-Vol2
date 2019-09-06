@@ -1,1 +1,31 @@
 /* pages/new/index.wxss */
+page {
+    display: flex;
+    flex-flow: column;
+    align-content: stretch;
+}
+
+.ptab { 
+    flex: 0 0 56rpx;
+}
+
+#res_wrap {
+    flex: 1;
+    overflow: hidden;
+}
+
+#res_wrap scroll-view {
+    height: 100%;
+}
+
+#search_tab {
+    position: fixed;
+    width: 100%; 
+    z-index: 10;
+    -webkit-backdrop-filter: blur(15px); /* Safari for macOS & iOS*/
+    backdrop-filter: blur(15px); /* Google Chrome */
+}
+
+.tab_cnt_box {
+    padding-top: 80rpx;
+}

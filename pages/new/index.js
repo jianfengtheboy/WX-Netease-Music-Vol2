@@ -1,66 +1,130 @@
-// pages/new/index.js
+var bsurl = require('../../utils/bsurl.js')
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    pt: 1,
+    tab: 1,
+    tab2: 1,
+    songs: [
+      {
+        name: "ZH",
+        img: 'cn',
+        loading: true,
+        re: []
+      }, 
+      {
+        name: "EA",
+        img: 'us',
+        loading: true,
+        re: []
+      },
+      {
+        name: "KR",
+        img: 'kr',
+        loading: true,
+        re: []
+      },
+      {
+        name: "JP",
+        img: 'jp',
+        loading: true,
+        re: []
+      }
+    ],
+    albums: [
+      {
+        name: "ZH",
+        offset: 0,
+        loading: true,
+        re: []
+      }, 
+      {
+        name: "EA",
+        offset: 0,
+        loading: true,
+        re: []
+      },
+      {
+        name: "KR",
+        offset: 0,
+        loading: true,
+        re: []
+      },
+      {
+        name: "JP",
+        offset: 0,
+        loading: true,
+        re: []
+      }
+    ]
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  onLoad: function () {
+    this.getsongs(this.data.songs[0].name, 0)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  tabtype: function(e) {
+    let i = e.currentTarget.dataset.tab
+    let t = this.data.pt
+    if (t == 1) {
+      this.setData({
+        tab: i
+      })
+      i--
+      this.data.songs[i].loading && this.getsongs(this.data.songs[i].name, i)
+    } else {
+      this.setData({
+        tab2: i
+      })
+      i--
+      this.data.albums[i].loading && this.getalbums(this.data.albums[i].name, i)
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  ptab(e) {
+    let i = e.currentTarget.dataset.pt
+    this.setData({
+      pt: i
+    })
+    this.data.albums[0].loading && this.getalbums(this.data.albums[0].name, 0)
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  getsongs: function(type, i) {
+    let that = this
+    wx.request({
+      url: bsurl + 'top/songs',
+      data: { type: type },
+      success: function (res) {
+        that.data.songs[i].loading = false
+        that.data.songs[i].re = res
+        that.setData({
+          songs: that.data.songs
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  getalbums: function(type, i, t) {
+    let that = this
+    wx.request({
+      url: bsurl + 'top/album',
+      data: {
+        type: type,
+        limit: 20,
+        limit: 20,
+        offset: that.data.albums[i].offset
+      },
+      success: function(res) {
+        !res.data.albums.length && (that.data.albums[i].loading = false)
+        if (!t) {
+          that.data.albums[i].re = res
+        } else {
+          that.data.albums[i].re.data.albums = that.data.albums[i].re.data.albums.concat(res.data.albums)
+        }
+        that.data.albums[i].offset += res.data.albums.length
+        that.setData({
+          albums: that.data.albums
+        })
+      }
+    })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  loadmore: function() {
+    if (this.data.pt == 1) return
+    let i = this.data.tab2 - 1
+    this.data.albums[i].loading && this.getalbums(this.data.albums[i].name, i, 1)
   }
 })
