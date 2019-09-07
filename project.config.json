@@ -50,13 +50,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "pages/new/index",
 					"pathName": "pages/new/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/album/index",
+					"pathName": "pages/album/index",
+					"query": "pid=81409440",
 					"scene": null
 				}
 			]
