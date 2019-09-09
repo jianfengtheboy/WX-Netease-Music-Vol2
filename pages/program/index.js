@@ -1,66 +1,215 @@
-// pages/program/index.js
+var common = require('../../utils/util.js')
+var bsurl = require('../../utils/bsurl.js')
+var nt = require('../../utils/nt.js')
+var app = getApp()
+var seek = 0
+var defaultdata = {
+	playing: false,
+	music: {},
+	playtime: '00:00',
+	duration: '00:00',
+	percent: 1,
+	lrc: [],
+	commentscount: 0,
+	disable: false,
+	tgpinfo: false,
+	downloadPercent: 0,
+	showpinfo: false,
+	share: {
+		title: "一起来听",
+    des: ""
+	},
+	p: {},
+	curpl: []
+}
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
+  data: defaultdata,
+  onShareAppMessage: function() {
+    return {
+      title: this.data.share.title,
+      desc: this.data.share.des,
+      path: 'page/home/index?share=1&st=program&id=' + this.data.share.id
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  playmusic: function(that, id) {
+    wx.request({
+      url: bsurl + 'program/detail',
+      data: {
+        id: id
+      },
+      success: (res) => {
+        if (res.data.code != 200) {
+          wx.showToast({
+            title: '获取电台节目失败,请重试！',
+						icon: 'warning',
+						duration: 2000
+          })
+          return
+        }
+        res = res.data.program
+				app.globalData.curplay = res.mainSong
+				!app.globalData.list_dj.length && (app.globalData.list_dj.push(res))
+				that.setData({
+					p: res,
+					share: {
+						id: id,
+						title: res.name,
+						des: res.description
+					},
+					music: app.globalData.curplay,
+					duration: common.formatduration(app.globalData.curplay.duration)
+        })
+        wx.setNavigationBarTitle({ 
+          title: app.globalData.curplay.name 
+        })
+				nt.postNotificationName("music_next", {
+					music: app.globalData.curplay,
+					p: res,
+					playtype: 3
+				})
+				app.seekmusic(3)
+				common.loadrec(app.globalData.cookie, 0, 0, res.id, function (res) {
+					that.setData({
+						commentscount: res.total
+					})
+				}, 3)
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  togpinfo: function() {
+    this.setData({
+      showpinfo: !this.data.showpinfo
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
+  toggleinfo: function() {
+    this.setData({
+      tgpinfo: !this.data.tgpinfo
+    })
+  },
+  playother: function(e) {
+    let type = e.currentTarget.dataset.other
+    this.setData(defaultdata)
+    let that = this
+    app.nextplay(type, function() {
+      that.setData({
+        p: app.globalData.list_dj[app.globalData.index_dj],
+        share: {
+          id: app.globalData.curplay.id,
+          title: app.globalData.curplay.name
+        }
+      })
+    })
+  },
+  playshuffle: function() {
+    let shuffle = this.data.shuffle
+    shuffle ++
+    shuffle = shuffle > 3 ? 1 : shuffle
+    this.setData({
+      shuffle: shuffle
+    })
+    app.shuffleplay(shuffle)
+  },
+  songheart: function() {
+    let that = this
+		let p = this.data.p
+		wx.request({
+			url: bsurl + 'resource/like',
+			data: {
+				id: p.commentThreadId,
+				t: p.liked ? 0 : 1,
+				cookie: app.globalData.cookie
+			},
+			success: (res) => {
+				if (res.data.code == 200) {
+					p.liked = !p.liked
+					that.setData({
+						p: p
+					})
+				}
+			}
+		})
+  },
+  museek: function(e) {
+    let nextime = e.detail.value
+		let that = this
+		nextime = app.globalData.curplay.duration * nextime / 100000
+		app.globalData.currentPosition = nextime
+		app.seekmusic(1, app.globalData.currentPosition, function () {
+			that.setData({
+				percent: e.detail.value
+			})
+		})
+  },
   onShow: function () {
-
+		let that = this
+		common.playAlrc(that, app)
+		nt.addNotification("music_next", this.music_next, this)
+		seek = setInterval(function () {
+			common.playAlrc(that, app)
+		}, 1000)
+	},
+	onUnload: function () {
+		clearInterval(seek)
+		nt.removeNotification("music_next", this)
+	},
+	onHide: function () {
+		clearInterval(seek)
+		nt.removeNotification("music_next", this)
+	},
+	music_next: function (r) {
+		let that = this
+		common.loadrec(app.globalData.cookie, 0, 0, r.p.id, function (res) {
+			that.setData({
+				commentscount: res.total
+			})
+		}, 3)
+	},
+  onLoad: function (options) {
+		let that = this
+		app.globalData.playtype = 3
+		this.setData({
+			shuffle: app.globalData.shuffle,
+			curpl: app.globalData.list_dj
+		})
+		let curp = app.globalData.list_dj[app.globalData.index_dj] || {}
+		if (!curp.mainSong || (curp.mainSong.id != options.id)) {
+			//播放不在列表中的单曲
+			this.playmusic(that, options.pid)
+		} else {
+			that.setData({
+				start: 0,
+				music: curp.mainSong,
+				p: curp,
+				duration: common.formatduration(app.globalData.curplay.duration),
+				share: {
+					id: app.globalData.curplay.id,
+					title: app.globalData.curplay.name
+				},
+			})
+			wx.setNavigationBarTitle({ 
+        title: app.globalData.curplay.name 
+      })
+			common.loadrec(app.globalData.cookie, 0, 0, that.data.p.id, function (res) {
+				that.setData({
+					commentscount: res.total
+				})
+			}, 3)
+		}
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+  playingtoggle: function (event) {
+		if (this.data.disable) return
+		let that = this
+		if (this.data.playing) {
+			that.setData({ 
+        playing: false 
+      })
+			app.stopmusic(3)
+		} else {
+			app.seekmusic(3, app.globalData.currentPosition, function () {
+				that.setData({
+					playing: true
+				})
+			}, )
+		}
+	}
 })
