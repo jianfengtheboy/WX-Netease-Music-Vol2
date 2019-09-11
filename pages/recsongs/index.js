@@ -1,66 +1,97 @@
-// pages/recsongs/index.js
+var bsurl = require('../../utils/bsurl.js')
+var nt = require('../../utils/nt.js')
+var common = require('../../utils/util.js')
+var app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    list: [],
+    curplay: -1,
+    music: {},
+    songs: {},
+    playing: false,
+    playtype: 1,
+    date: ((new Date()).getDate())
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  toggleplay: function () {
+    common.toggleplay(this, app)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  playnext: function (e) {
+    app.nextplay(e.currentTarget.dataset.pt)
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
+  music_next: function (r) {
+    this.setData({
+      music: r.music,
+      playtype: r.playtype,
+      curplay: r.music.id
+    })
+  },
+  music_toggle: function (r) {
+    this.setData({
+      playing: r.playing,
+      music: r.music,
+      playtype: r.playtype,
+      curplay: r.music.id
+    })
+  },
   onShow: function () {
-
+    nt.addNotification("music_next", this.music_next, this)
+    nt.addNotification("music_toggle", this.music_toggle, this)
+    this.setData({
+      curplay: app.globalData.curplay.id,
+      music: app.globalData.curplay,
+      playing: app.globalData.playing,
+      playtype: app.globalData.playtype
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
-
+    nt.removeNotification("music_next", this)
+    nt.removeNotification("music_toggle", this)
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  lovesong: function () {
+    common.songheart(this, app, 0, (this.data.playtype == 1 ? this.data.music.st : this.data.music.starred))
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+  onLoad: function(options) {
+    let that = this
+    wx.request({
+      url: bsurl + 'recommend/songs',
+      success: function (res) {
+        that.setData({
+          songs: res.data.recommend,
+          loading: true
+        })
+      }
+    })
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  playall: function (event) {
+    this.setplaylist(this.data.songs[0], 0)
+    app.seekmusic(1)
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  setplaylist: function (music, index) {
+    //设置播放列表，设置当前播放音乐，设置当前音乐在列表中位置
+    app.globalData.curplay = app.globalData.curplay.id != music.id ? music : app.globalData.curplay
+    app.globalData.index_am = index
+    app.globalData.playtype = 1
+    let shuffle = app.globalData.shuffle
+    app.globalData.list_sf = this.data.songs //this.data.list.tracks;
+    app.shuffleplay(shuffle)
+    app.globalData.globalStop = false
+    this.setData({
+      curplay: music.id
+    })
+  },
+  playmusic: function (event) {
+    let that = this
+    let music = event.currentTarget.dataset.idx
+    let st = event.currentTarget.dataset.st
+    if (st * 1 < 0) {
+      wx.showToast({
+        title: '歌曲已下架',
+        icon: 'success',
+        duration: 2000
+      })
+      return
+    }
+    music = this.data.songs[music]
+    that.setplaylist(music, event.currentTarget.dataset.idx)
   }
 })
