@@ -34,7 +34,7 @@ App({
       })
     })
     this.mine()
-    this.likelist()
+    // this.likelist()
     this.loginrefresh()
   },
   //我的
