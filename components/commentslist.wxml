@@ -1,7 +1,14 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-11 18:29:40
+ * @LastEditTime: 2020-03-21 17:54:06
+ -->
 <template name="commentslist">
     <block wx:if="{{rec.hotComments.length}}">
         <view class="sm_title">热门评论</view>
-        <view class="limg_list rec_list" wx:for-items="{{rec.hotComments}}" wx:for-index="idx" wx:key="{{item.commentId}}">
+        <view class="limg_list rec_list" wx:for-items="{{rec.hotComments}}" wx:for-index="idx" wx:key="idx">
             <view class="rec_avatar">
                 <navigator>
                     <image class="user_avator" src="{{item.user.avatarUrl}}?param=60y60" />
@@ -20,7 +27,7 @@
                 <view class="rm_cnt">
                     <text wx:if="{{item.beReplied.length}}">回复 <text class="replyname">@{{item.beReplied[0].user.nickname}}</text>：</text>
                     <view class="WxEmojiView">
-                        <block wx:for="{{item.content}}" wx:for-item="re" wx:key="">
+                        <block wx:for="{{item.content}}" wx:for-item="re" wx:key="re">
                             <block wx:if="{{re.node == 'text'}}">{{re.text}}</block>
                             <block wx:elif="{{re.node == 'element'}}">
                                 <image class="wxEmoji" src="http://s1.music.126.net/style/web2/emt//emoji_{{re.text}}.png" />
@@ -30,7 +37,7 @@
                     <view class="rmc_reply" wx:if="{{item.beReplied.length}}">
                         <text class="replyname">@{{item.beReplied[0].user.nickname}}</text>：
                         <view class="WxEmojiView">
-                            <block wx:for="{{item.beReplied[0].content}}" wx:for-item="re" wx:key="">
+                            <block wx:for="{{item.beReplied[0].content}}" wx:for-item="re" wx:key="re">
                             <block wx:if="{{re.node == 'text'}}">{{re.text}}</block>
                                 <block wx:elif="{{re.node == 'element'}}">
                                     <image class="wxEmoji" src="http://s1.music.126.net/style/web2/emt//emoji_{{re.text}}.png" />
@@ -45,7 +52,7 @@
     </block>
     <block wx:if="{{rec.comments}}">
         <view class="sm_title">精彩评论({{rec.total}})</view>
-        <view class="limg_list rec_list" wx:for-items="{{rec.comments}}" wx:for-index="idx" wx:key="{{item.commentId}}">
+        <view class="limg_list rec_list" wx:for-items="{{rec.comments}}" wx:for-index="idx" wx:key="idx">
             <view class="rec_avatar">
                 <navigator>
                     <image class="user_avator" src="{{item.user.avatarUrl}}?param=60y60" />
@@ -63,7 +70,7 @@
                 <view class="rm_cnt">
                     <text wx:if="{{item.beReplied.length}}">回复 <text class="replyname">@{{item.beReplied[0].user.nickname}}</text>：</text>
                     <view class="WxEmojiView">
-                        <block wx:for="{{item.content}}" wx:for-item="re" wx:key="">
+                        <block wx:for="{{item.content}}" wx:for-item="re" wx:key="re">
                             <block wx:if="{{re.node == 'text'}}">{{re.text}}</block>
                             <block wx:elif="{{re.node == 'element'}}">
                                 <image class="wxEmoji" src="http://s1.music.126.net/style/web2/emt//emoji_{{re.text}}.png" />
@@ -73,7 +80,7 @@
                     <view class="rmc_reply" wx:if="{{item.beReplied.length}}">
                         <text class="replyname">@{{item.beReplied[0].user.nickname}}</text>：
                         <view class="WxEmojiView">
-                            <block wx:for="{{item.beReplied[0].content}}" wx:for-item="r" wx:key="">
+                            <block wx:for="{{item.beReplied[0].content}}" wx:for-item="r" wx:key="re">
                                 <block wx:if="{{r.node == 'text'}}">{{r.text}}</block>
                                 <block wx:elif="{{r.node == 'element'}}">
                                     <image class="wxEmoji" src="http://s1.music.126.net/style/web2/emt//emoji_{{r.text}}.png" />

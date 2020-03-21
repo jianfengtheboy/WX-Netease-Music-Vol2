@@ -1,3 +1,10 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-21 09:37:46
+ * @LastEditTime: 2020-03-21 18:11:45
+ -->
 <import src="../../components/image.wxml" />
 <view id="recs_header">
     <image src="http://s2.music.126.net/style/web2/img/recmd_daily.jpg" mode="widthFix" />
@@ -17,7 +24,7 @@
     </view>
     <view wx:for-items="{{songs}}" 
           wx:for-index="idx" 
-          wx:key="{{item.id}}" 
+          wx:key="idx" 
           wx:for-item="re" 
           class="songs {{re.id==curplay?'cur':''}}">
         <navigator url="../playing/index?id={{re.id}}&br={{re.privilege.maxbr}}" 

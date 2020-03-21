@@ -1,6 +1,13 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-12 17:09:56
+ * @LastEditTime: 2020-03-21 17:54:37
+ -->
 <import src="./image.wxml" />
 <template name="playlist">
-  <block wx:if="{{privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{item.id}}" wx:for-item="re">
+  <block wx:if="{{privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="idx" wx:for-item="re">
     <view class="songs {{re.id===curplay?'cur':''}} {{privileges[idx].st>=0?'':'disabled'}}">
       <navigator hover-class="{{privileges[idx].st<0?'none':''}}" url="{{privileges[idx].st >= 0 ? '../playing/index?id='+re.id+'&br='+privileges.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{privileges[idx].st}}">
         <view class="flexlist flex-center">
@@ -43,7 +50,7 @@
       </navigator>
     </view>
   </block>
-  <block wx:if="{{!privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{re.id}}" wx:for-item="re">
+  <block wx:if="{{!privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="idx" wx:for-item="re">
     <view class="songs {{re.id===curplay?'cur':''}} {{re.privilege.st==-1?'disabled':''}} {{re.id}}">
       <navigator hover-class="{{re.privilege.st==-1?'none':''}}" url="{{re.privilege.st != -1 ? '../playing/index?id='+re.id+'&br='+re.privilege.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{re.privilege.st}}">
         <view class="flexlist flex-center">

@@ -1,3 +1,10 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-21 09:38:47
+ * @LastEditTime: 2020-03-21 18:07:34
+ -->
 <import src="../../components/playlist.wxml" />
 <import src="../../components/image.wxml" />
 <import src="../../components/pageplay.wxml" />
@@ -33,7 +40,7 @@
 <view class="page_pp">
     <view wx:for-items="{{programs.programs}}" 
           wx:for-index="idx" 
-          wx:key="{{item.id}}" 
+          wx:key="idx" 
           wx:for-item="re">
         <view class="songs {{(re.id == curplay) ? 'cur' : ''}}">
             <navigator url="{{'../program/index?id=' + re.mainSong.id + '&that.globalData.curplaypid=' + re.id}}" 

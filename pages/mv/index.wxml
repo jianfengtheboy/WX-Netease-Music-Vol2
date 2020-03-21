@@ -1,3 +1,10 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-21 09:34:17
+ * @LastEditTime: 2020-03-21 18:08:29
+ -->
 <import src="../../components/commentslist.wxml" />
 <view id="mvpage">
     <view id="mvheader">
@@ -45,7 +52,7 @@
         <view class="tab-cnt" wx:if="{{tab==2}}">
             <scroll-view style="height:100%;" scroll-y="true">
                 <view class="flex-boxlist mvs">
-                    <view wx:for="{{simi.mvs}}" class="tl_cnt" wx:for-item="re" wx:key="{{re}}">
+                    <view wx:for="{{simi.mvs}}" class="tl_cnt" wx:for-item="re" wx:key="re">
                         <navigator url="../mv/index?id={{re.id}}">
                             <view class="cover">
                                 <view class="img_playcount">

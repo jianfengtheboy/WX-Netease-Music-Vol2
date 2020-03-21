@@ -43,7 +43,7 @@
         <template is="loading" wx:if="{{!loading}}" />
     </view>
     <view class="tab_cnt " hidden="{{tab!=2}}">
-        <view wx:for="{{album.hotAlbums}}" class="albums" wx:for-item="re" wx:key="{{re}}">
+        <view wx:for="{{album.hotAlbums}}" class="albums" wx:for-item="re" wx:key="re">
             <navigator url="../album/index?pid={{re.id}}&from=album">
                 <view class="flexlist flex-image">
                     <view class="flexleft fl-image">
@@ -75,7 +75,7 @@
                 <view wx:for="{{mvs.mvs}}" 
                       class="tl_cnt" 
                       wx:for-item="re" 
-                      wx:key="{{re}}">
+                      wx:key="re">
                     <navigator url="../mv/index?id={{re.id}}">
                         <view class="cover">
                             <view class="img_playcount">
@@ -104,7 +104,7 @@
             </view>
             <text class="artist_des">{{desc.briefDesc}}</text>
             <block wx:for-items="{{desc.introduction}}" 
-                   wx:key="{{index}}">
+                   wx:key="index">
                 <view class="listheader">
                     <text>{{item.ti}}</text>
                 </view>
@@ -119,7 +119,7 @@
                           class="flex-boxlist">
                         <view class="tl_cnt" 
                               wx:for-items="{{simi.artists}}" 
-                              wx:key="{{index}}">
+                              wx:key="index">
                             <navigator url="index?id={{item.id}}">
                                 <view class="cover">
                                     <image wx:if="{{item.img1v1Url}}" 

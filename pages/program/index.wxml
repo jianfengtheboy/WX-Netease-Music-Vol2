@@ -154,7 +154,7 @@
                   data-index="{{idx}}" 
                   wx:for-index="idx" 
                   wx:for-items="{{curpl}}" 
-                  wx:key="{{item.id}}">
+                  wx:key="idx">
                 <view class="flexlist">
                     <view class="flexleft" wx:if="{{item.id==p.id}}">
                         <template is="image" 

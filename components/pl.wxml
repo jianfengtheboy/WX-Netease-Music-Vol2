@@ -1,5 +1,12 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-12 17:07:44
+ * @LastEditTime: 2020-03-21 17:54:25
+ -->
 <template name="pl">
-	<block wx:for-items="{{list}}" wx:key="{{item.id}}">
+	<block wx:for-items="{{list}}" wx:key="item">
 		<navigator url="../playlist/index?pid={{item.id}}" wx:if="{{item.userId!=user.profile.userId}}">
 			<view class="flexlist flex-image">
 				<view class="flexleft fl-image">

@@ -81,7 +81,7 @@
                   bindtap="trackstpl" 
                   data-pid="{{item.id}}" 
                   wx:for-items="{{playlist}}" 
-                  wx:key="{{item.id}}">
+                  wx:key="item">
                 <view class="flexlist">
                     <view class="flexleft fl-image">
                         <image wx:if="{{item.coverImgUrl}}" 
@@ -124,7 +124,7 @@
                   data-index="{{idx}}" 
                   wx:for-index="idx" 
                   wx:for-items="{{curpl}}" 
-                  wx:key="{{item.id}}">
+                  wx:key="idx">
                 <view class="flexlist">
                     <view class="flexleft" 
                           wx:if="{{item.id == music.id}}">

@@ -7,7 +7,7 @@
         <view class='flex-boxlist'>
             <view class="tl_cnt" 
                   wx:for-items="{{pl}}" 
-                  wx:key="{{item.id}}">
+                  wx:key="pl">
                 <navigator url="../playlist/index?pid={{item.id}}&from=toplist">
                     <view class="cover">
                         <image wx:if="{{item.coverImgUrl}}" 
@@ -32,7 +32,7 @@
         <view class="sm_title">喜欢这首歌的人你也听</view>
         <view wx:for-items="{{song}}" 
               wx:for-index="idx" 
-              wx:key="{{item.id}}" 
+              wx:key="idx" 
               wx:for-item="re" 
               class="songs ml {{re.id == curplay ? 'cur' : ''}}">
             <navigator url="../playing/index?id={{re.id}}&br={{re.privilege.maxbr}}" 
@@ -65,7 +65,7 @@
     </block>
     <block wx:if="{{user.length}}">
         <view class="sm_title">喜欢这首歌的人</view>
-        <view wx:for="{{user}}" class=" userprofiles" wx:for-item="re" wx:key="{{re}}">
+        <view wx:for="{{user}}" class=" userprofiles" wx:for-item="re" wx:key="re">
             <navigator url="../user/index?id={{re.userId}}" class="flexlist flex-image">
                 <view class="flexleft fl-image">
                     <image src="{{re.avatarUrl}}?param=100y100" class="user_avator" />

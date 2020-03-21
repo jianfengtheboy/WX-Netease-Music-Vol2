@@ -31,7 +31,7 @@
           class="{{!loading||!value?'vhidden':''}} tab">
         <view class="tab-item {{tab.tab == item.type ? 'tbi-cur' : ''}}" 
               wx:for-items="{{tabs}}" 
-              wx:key="{{item.type}}" 
+              wx:key="idx" 
               wx:for-index="idx" 
               catchtap="tabtype" 
               data-index="{{idx}}" 
@@ -50,7 +50,7 @@
             <view class="sr_lists flexlist flex-center" 
                   bindtap="searhFrecent" 
                   wx:for="{{recent}}" 
-                  wx:key="{{idx}}"
+                  wx:key="idx"
                   wx:if="{{idx<5}}" 
                   data-value="{{item}}" 
                   wx:for-index="idx">
@@ -71,13 +71,13 @@
     <view class="seare_list" 
           hidden="{{tab.tab!=item.type||!loading||!value}}" 
           wx:for-items="{{tabs}}" 
-          wx:key="{{idx}}"
+          wx:key="idx"
           wx:index="idx">
         <template is="playlist" data="{{list:item.relist.songs}}" />
         <view wx:for="{{item.relist.artists}}" 
               class="artists " 
               wx:for-item="re" 
-              wx:key="{{re}}">
+              wx:key="re">
             <navigator url="../artist/index?id={{re.id}}" class="flexlist flex-image">
                 <view class="flexleft fl-image">
                     <image wx:if="{{re.img1v1Url}}" 
@@ -98,7 +98,7 @@
         <view wx:for="{{item.relist.albums}}" 
               class="albums" 
               wx:for-item="re" 
-              wx:key="{{re}}">
+              wx:key="re">
             <navigator url="../album/index?pid={{re.id}}&from=album" 
                        class="flexlist flex-image">
                 <view class="flexleft fl-image">
@@ -124,7 +124,7 @@
         <view wx:for="{{item.relist.playlists}}" 
               class="playlist" 
               wx:for-item="re" 
-              wx:key="{{re}}">
+              wx:key="re">
             <navigator url="../playlist/index?pid={{re.id}}" 
                        class="flexlist flex-image">
                 <view class="flexleft fl-image">
@@ -148,7 +148,7 @@
                        wx:for="{{item.relist.mvs}}" 
                        class="tl_cnt" 
                        wx:for-item="re" 
-                       wx:key="{{re}}">
+                       wx:key="re">
                 <view class="cover">
                     <view class="img_playcount">
                         <image src="../../image/video.png" style="height:20rpx;width:28rpx;" />
@@ -171,7 +171,7 @@
                    class="flexlist flex-image" 
                    wx:for="{{item.relist.djRadios}}" 
                    wx:for-item="re" 
-                   wx:key="{{re}}">
+                   wx:key="re">
             <view class="flexleft fl-image">
                 <image wx:if="{{re.picUrl}}" src="{{re.picUrl}}?param=100y100" class="album_cover" />
             </view>
@@ -189,7 +189,7 @@
                    class="flexlist flex-image" 
                    wx:for="{{item.relist.djprograms}}" 
                    wx:for-item="re" 
-                   wx:key="{{re}}">
+                   wx:key="re">
             <view class="flexleft fl-image">
                 <image wx:if="{{re.coverUrl}}" src="{{re.coverUrl}}?param=100y100" class="album_cover" />
             </view>
@@ -203,7 +203,7 @@
         <view wx:for="{{item.relist.userprofiles}}" 
               class="userprofiles" 
               wx:for-item="re" 
-              wx:key="{{re}}">
+              wx:key="re">
             <navigator url="../user/index?id={{re.userId}}" 
                        class="flexlist flex-image">
                 <view class="flexleft fl-image">

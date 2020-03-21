@@ -1,3 +1,10 @@
+<!--
+ * @Author: SunJianFeng
+ * @LastEditors: SunJianFeng
+ * @Email: jianfengtheboy@163.com
+ * @Date: 2019-08-21 09:38:12
+ * @LastEditTime: 2020-03-21 18:07:03
+ -->
 <import src="../../components/playlist.wxml" />
 <import src="../../components/loading.wxml" />
 <view class="plist-detail">
@@ -13,7 +20,7 @@
         </view>
         <block wx:for-items="{{list.data}}" 
                wx:for-index="idx" 
-               wx:key="{{item.id}}" 
+               wx:key="idx" 
                wx:for-item="re">
             <view class="songs {{(re.simpleSong.id==curplay)?'cur':''}} {{re.simpleSong.privilege.st>=0?'':'disabled'}} {{re.simpleSong.id}}">
                 <navigator hover-class="{{re.simpleSong.privilege.st<0?'none':''}}" 

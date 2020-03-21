@@ -52,7 +52,7 @@
                            data-index="{{i}}" 
                            wx:for-index="i" 
                            wx:for="{{re.re.data.data}}" 
-                           wx:key="{{r.id}}" 
+                           wx:key="r" 
                            wx:for-item="r">
                     <view class="flexlist">
                         <view class="flexleft fl-image">
@@ -114,7 +114,7 @@
                     <view class="tl_cnt" 
                           wx:for="{{re.re.data.albums}}"
                           wx:for-item="r" 
-                          wx:key="{{r.id}}">
+                          wx:key="r">
                         <navigator url="../album/index?pid={{r.id}}">
                             <view class="albums_wrap cover">
                                 <template is="image" 
