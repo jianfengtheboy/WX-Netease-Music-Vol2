@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.14.0",
+    "express": "^4.17.3",
     "tough-cookie": "^2.2.2",
     "big-integer": "^1.6.15",
     "request": "^2"
